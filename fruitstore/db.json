@@ -1,0 +1,51 @@
+{
+  "user": [
+    {
+      "username": "111111",
+      "phone": "22222",
+      "email": "123123@qq.com",
+      "password": "123",
+      "address": "443123",
+      "status": "正常",
+      "id": 1
+    },
+    {
+      "username": "123213",
+      "phone": "123",
+      "email": "123123@qq.com",
+      "password": "123",
+      "address": "411123",
+      "status": "正常",
+      "id": 2
+    },
+    {
+      "username": "123",
+      "phone": "123",
+      "email": "123@qq.com",
+      "password": "123",
+      "address": "633123",
+      "status": "正常",
+      "id": 3
+    }
+  ],
+  "product": [
+    {
+      "url": "./images/gc1.jpg",
+      "name": "美伦达 精品蜜柚 鸳鸯柚子2粒",
+      "price": "￥19.90",
+      "id": 1
+    },
+    {
+      "url": "./images/gc2.jpg",
+      "name": "陕西眉县 徐香猕猴桃 15个礼盒装",
+      "price": "￥24.70",
+      "id": 2
+    },
+    {
+      "url": "1",
+      "name": "1",
+      "price": "1",
+      "id": 3
+    }
+  ]
+}

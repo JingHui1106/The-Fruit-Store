@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>美伦达</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/comm.js"></script>
+    <style>
+        .navbar-brand>img {
+            height: 50px;
+            line-height: 50px;
+            margin-top: -15px;
+        }
+
+        .navbar-header a,
+        .collapse a {
+            font-size: 14px;
+        }
+
+        @media screen and (max-width: 767px) {
+
+            .navbar-brand,
+            .navbar-nav a {
+                padding-left: 30px !important;
+            }
+
+            /* .productIntroduce{
+                padding: 0px !important;
+            } */
+            .boxMedia {
+                margin-top: 70px;
+                margin-left: 0px !important;
+            }
+
+            .btn-success {
+                margin: 10px 0px !important;
+            }
+
+            /* .box {
+                margin-left: 10px;
+            } */
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+            .boxMedia {
+                margin-left: 0px !important;
+            }
+
+            .btn-success {
+                margin: 0px !important;
+            }
+        }
+
+        .navHeader {
+            margin-bottom: 0px;
+        }
+
+        /* 放大镜 */
+        .box {
+            border: 1px solid #ccc;
+            position: relative;
+            padding: 0px !important;
+        }
+
+        .big {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 0;
+            left: 360px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: none;
+        }
+
+        /* 因为大图片要跟着遮罩层来显示对应的区域,所以图片肯定要改变位置 */
+        .big img {
+            position: absolute;
+            z-index: 100;
+        }
+
+        .mask {
+            width: 175px;
+            height: 175px;
+            background: rgba(255, 255, 0, 0.4);
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            cursor: move;
+            display: none;
+        }
+
+        .small {
+            position: relative;
+        }
+
+        input[type=text] {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        #shopCar span {
+            display: inline-block;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .sectionNav {
+            padding: 0px;
+        }
+
+        .tabs a{
+            padding: 10px 0px !important;
+        }
+
+        .tabs a {
+            color: #E4393C;
+        }
+
+        .productIntroduce {
+            font-size: 12px;
+            font-family: tahoma, arial, "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+            color: #666666;
+            padding: 0px 30px;
+        }
+
+        .goodLive {
+            border: 1px solid #ccc;
+        }
+
+        .advertise {
+            text-align: center;
+        }
+
+        #shopCar span {
+            width: 12px;
+            text-align: center;
+        }
+
+        .boxMedia {
+            margin-left: 80px;
+        }
+
+
+        /* 底部 */
+        .footer {
+            background-image: url("images/footer.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .footer h4 {
+            color: white;
+        }
+
+        .footer small {
+            color: white;
+            opacity: 0.5;
+        }
+
+        .conTitle>div::after {
+            content: "";
+            display: block;
+            width: 31px;
+            height: 63px;
+            background: url('images/footerAside.png');
+            position: absolute;
+            right: -5%;
+            top: 0;
+        }
+
+        .conTitle>div:nth-child(4):after {
+            display: none;
+        }
+
+        .conTitle>div {
+            padding-left: 40px;
+        }
+
+        .secondRow p {
+            opacity: 0.5;
+        }
+
+        .secondRow div {
+            color: white;
+            text-align: center;
+        }
+
+        .secondRow+p,
+        .secondRow+p+p {
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-static-top navHeader">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="index.html" class="navbar-brand hidden-xs">
+                    <img src="images/logo.png" alt="" class="img-responsive">
+                </a>
+                <a class="navbar-brand" href="index.html">首页</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav">
+                    <li><a href="">全部产品</a></li>
+                    <li><a href="" class="hidden-sm">最新资讯</a></li>
+                    <li><a href="" class="hidden-sm">联系我们</a></li>
+                    <li><a href="">购物车</a></li>
+                    <li><a data-toggle="modal" data-target="#myModal">登录</a></li>
+                    <li><a href="enroll.html">注册</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="" class="hidden-xs">关于</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <div class="container sectionNav">
+        <ol class="breadcrumb">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="">全部产品</a></li>
+            <li class="active">美伦达 精品蜜柚 鸳鸯柚子2粒</li>
+        </ol>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="box " id="box">
+                    <!-- small是左侧 -->
+                    <div class="small">
+                        <!-- 小图片 -->
+                        <img src="images/small.jpg" alt="" class="img-responsive" />
+                        <!-- 遮罩层 -->
+                        <div class="mask"></div>
+                    </div>
+                    <div class="big">
+                        <!-- 大图 -->
+                        <img src="images/big.jpg" alt="" />
+                    </div>
+                </div>
+                <br>
+                <span class="glyphicon glyphicon-heart-empty" style="margin-left: 5px;">关注</span>
+                <span class="glyphicon glyphicon-link" style="margin-left: 10px;">分享</span>
+            </div>
+            <div class="col-md-6 col-sm-6 boxMedia">
+                <div class="productContent">
+                    <h2>顺丰 美伦达 精品蜜柚 鸳鸯柚子2粒 现摘现发</h2>
+                    <br>
+                    <p class="text-danger">咚咚象大果石榴，有颜值又有实力的吉祥之果！</p>
+                    <br>
+                    <div class="form-horizontal row">
+                        <div class="col-md-2 col-md-push-0 col-sm-3 col-xs-4 col-xs-push-1 control-label"
+                            style="color: #999; font-size: 10px;font-family: simsun;">秒
+                            杀 价</div>
+                        <div class="col-md-4 col-xs-6 col-sm-push-1">
+                            <div class="bg-danger price"
+                                style="color: #E4393C; background-color: #F3F3F3; padding: 10px; font-size: 20px;font-weight: bold;">
+                                <span style="font-size: 5px;">￥</span> 19.9 <a
+                                    style="font-size: 5px; color: #4E99B2; cursor: pointer; text-decoration: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;降价通知</a>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <form class="form-horizontal">
+                        <div class="form-group row">
+                            <div class="col-md-2 col-md-push-0 col-sm-3 col-xs-4 col-xs-push-1 control-label"
+                                style="color: #999; font-size: 10px;font-family: simsun;">配 送 至</div>
+                            <div class="col-xs-6 col-md-6 col-sm-push-1">
+                                <select class="form-control">
+                                    <option>河南省 郑州市 中原区</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-2 col-md-push-0 col-sm-3 col-xs-4 col-xs-push-1 control-label"
+                                style="color: #999; font-size: 10px;font-family: simsun;">购买数量</div>
+                            <div class="col-xs-4 col-sm-push-1">
+                                <table id="shopCar">
+                                    <tr>
+                                        <td>
+                                            <span>-</span>
+                                            <input type="text" name="" id="acount" value="1">
+                                            <span>+</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <a type="button" class="btn btn-primary btn-lg  btn-danger" style="padding:10px 40px;"
+                        href="#">立即购买</a>
+                    <a type="button" class="btn btn-primary btn-lg  btn-success"
+                        style="padding:10px 40px; margin-left: 20px;" href="shoppingCart.html">加购物车</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container tabs">
+        <ul class="nav nav-tabs row" role="tablist">
+            <li role="presentation" class="active col-xs-3"><a href="#home" aria-controls="home" role="tab"
+                    data-toggle="tab" style="text-align: center;">商品介绍</a></li>
+            <li role="presentation" class="col-xs-3"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" style="text-align: center;">规格包装</a>
+            </li>
+            <li role="presentation" class="col-xs-3"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" style="text-align: center;">商品评价</a>
+            </li>
+            <li role="presentation" class="col-xs-3"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" style="text-align: center;">售后保障</a>
+            </li>
+        </ul>
+        <br>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active fade in" id="home">
+                <div class="row productIntroduce">
+                    <div class="col-xs-12">品牌： 美伦达</div>
+                    <br>
+                    <br>
+                    <div class="col-xs-3">商品名称： 精品蜜柚</div>
+                    <div class="col-xs-3">商品编号： 505050</div>
+                    <div class="col-xs-3">商品毛重： 0.5kg</div>
+                    <div class="col-xs-3">商品产地： 河南郑州</div>
+                    <div class="col-xs-3">类别： 蜜柚</div>
+                    <div class="col-xs-3">国产进口： 国产</div>
+                    <div class="col-xs-3 ">原产地： 福建漳州</div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="profile">
+                <div class="row productIntroduce">
+                    <div class="col-xs-3">净含量： 1.8kg</div>
+                    <div class="col-xs-3">保质期： 30天</div>
+                    <div class="col-xs-3">储存条件： 控温10°~15°</div>
+                    <div class="col-xs-3">包装清单： 红肉蜜柚*2粒</div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="messages">
+                <div class="media">
+                    <div class="media-left media-middle">
+                        <a href="#">
+                            <img class="media-object" src="images/user.jpg">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading"> 2020-8-31 红肉蜜柚*2粒</h5>
+                        味道不错，挺好的
+                    </div>
+                </div>
+                <div class="media">
+                    <div class="media-left media-middle">
+                        <a href="#">
+                            <img class="media-object" src="images/user.jpg">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading"> 2020-8-31 红肉蜜柚*2粒</h5>
+                        味道不错，挺好的
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="settings" style="padding: 0px 50px;">
+                <h5 style="color: #E4393C;">1、生鲜“优鲜赔”绿色通道</h5>
+                <p>生鲜自营商品的破损或腐坏等问题，请在商品签收后48小时内提交“优鲜赔”申请，100分钟内审核通过后即享补偿，无需返回商品；非鲜活易腐类商品需上门取件。</p>
+                <h5 style="color: #E4393C;">2、专业生鲜客服团队—让您售后无忧</h5>
+                <p>微信在线客服：JD-fresh</p>
+                <p>生鲜客服电话：400-606-3311</p>
+                <p>服务时间：09:00-24:00</p>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="container">
+        <div class="goodLive">
+            <img src="images/goodLive.jpg" alt="">
+        </div>
+        <br>
+        <div class="advertise row">
+            <div class="col-md-8 col-md-offset-2">
+                <img src="images/gl1.gif" alt="" class="img-responsive">
+            </div>
+            <br>
+            <div class="col-md-8 col-md-offset-2">
+                <img src="images/gl2.jpg" alt="" class="img-responsive">
+            </div>
+            <br>
+            <div class="col-md-8 col-md-offset-2">
+                <img src="images/gl3.jpg" alt="" class="img-responsive">
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <br><br><br>
+        <div class="container ">
+            <div class="row secondRow">
+                <div class="col-xs-6 col-md-3">
+                    <h4>服务保障</h4>
+                    <br>
+                    <p>正品保证</p>
+                    <p>7天无理由退换</p>
+                    <p>退货返运费</p>
+                    <p>7X15小时客户服务</p>
+                    <hr>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>支付方式</h4>
+                    <br>
+                    <p>公司转账</p>
+                    <p>货到付款</p>
+                    <p>在线支付</p>
+                    <p>分期付款</p>
+                    <hr>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>商家服务</h4>
+                    <br>
+                    <p>培训中心</p>
+                    <p>广告服务</p>
+                    <p>服务市场</p>
+                    <p>&nbsp;</p>
+                    <hr>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>服务保障</h4>
+                    <br>
+                    <p>免运费</p>
+                    <p>海外配送</p>
+                    <p>正品保证</p>
+                    <p>211限时达</p>
+                    <hr>
+                </div>
+            </div>
+            <p>©2016 果然新鲜 版权所有</p>
+            <p>手机版 | 凡科商城 | 管理登录</p>
+        </div>
+    </div>
+    <script>
+        var box = document.getElementById("box");
+
+        // 获取得到smallBox
+        var smallBox = box.children[0];
+
+        // 获取得到bigBox
+        var bigBox = box.children[1];
+
+        // 获取遮罩层
+        var maskBox = smallBox.children[1];
+
+        // 获取得到大图片
+        var bigImage = bigBox.children[0];
+
+        // 1、 鼠标移入box的时候 显示 mask和bigBox， 当鼠标离开box的时候隐藏mask和bigBox
+        box.onmouseover = function () {
+            maskBox.style.display = "block";
+            bigBox.style.display = "block";
+        }
+
+        box.onmouseout = function () {
+            maskBox.style.display = "none";
+            bigBox.style.display = "none";
+        }
+
+        // 2、 当鼠标在盒子中移动的时候， 让mask和鼠标一起移动
+        // 鼠标在mask中间
+        box.onmousemove = function (e) {
+            e = e || window.event;
+            // 获取鼠标在盒子里面的坐标
+            var mouseBoxX = getPage(e).pageX - this.offsetLeft;
+            var mouseBoxY = getPage(e).pageY - this.offsetTop;
+
+            var maskBoxWidthHalf = maskBox.offsetWidth / 2;
+            var maskBoxHeightHalf = maskBox.offsetHeight / 2;
+
+            // 限定最小范围
+            mouseBoxX = mouseBoxX < maskBoxWidthHalf ? maskBoxWidthHalf : mouseBoxX;
+            mouseBoxY = mouseBoxY < maskBoxHeightHalf ? maskBoxHeightHalf : mouseBoxY;
+
+            // 限定最大范围
+            mouseBoxX = mouseBoxX > (box.offsetWidth - maskBoxWidthHalf) ? box.offsetWidth - maskBoxWidthHalf :
+                mouseBoxX;
+            mouseBoxY = mouseBoxY > (box.offsetHeight - maskBoxHeightHalf) ? box.offsetHeight -
+                maskBoxHeightHalf :
+                mouseBoxY;
+
+            // 让mask跟着鼠标移动 - 把鼠标的坐标给mask的left和top属性
+            // 300  300 
+            maskBox.style.left = mouseBoxX - maskBoxWidthHalf + "px";
+            maskBox.style.top = mouseBoxY - maskBoxHeightHalf + "px";
+
+
+            // 3、 当mask移动的时候， 让大图片移动
+            // mask移动的距离 / mask最大能够移动的距离 = 大图片移动的距离 / 大图片最大能够移动的距离
+            // 大图片移动的距离 = mask移动的距离 *  大图片最大能够移动的距离 / mask最大能够移动的距离;
+            // 6 / 3 = 8 / 4;  8 = 6 * 4 / 3;
+            var bigImageX = (mouseBoxX - maskBoxWidthHalf) * (bigImage.offsetWidth - bigBox.offsetWidth) / (box
+                .offsetWidth - maskBox.offsetWidth);
+            var bigImageY = (mouseBoxY - maskBoxHeightHalf) * (bigImage.offsetHeight - bigBox.offsetHeight) / (
+                box
+                .offsetHeight - maskBox.offsetHeight);
+
+            bigImage.style.left = -bigImageX + "px";
+            bigImage.style.top = -bigImageY + "px";
+
+
+        }
+    </script>
+    <script>
+        var shopCar = document.getElementById("shopCar");
+        var inputs = shopCar.getElementsByTagName("input");
+
+        for (var i = 0; i < inputs.length; i++) {
+            var ip = inputs[i];
+
+            // 添加获取焦点事件
+            ip.onfocus = function () {
+                var val = this.value;
+                // 自定义属性
+                this.setAttribute("val", val);
+            }
+
+            // 添加失去焦点事件
+            ip.onblur = function () {
+                // 判断值是否符合要求
+                var v = Number(this.value);
+
+                // 如果v是NaN,那么恢复之前的值
+                if (isNaN(v)) {
+                    this.value = this.getAttribute("val");
+                } else {
+                    getPay();
+                }
+            }
+
+            // 给input之前的减号添加鼠标单击事件
+            var previousSpan = getPreviousElementSibling(ip);
+            previousSpan.onclick = function () {
+                // 获取输入框的当前值
+                var input = getNextElementSibling(this);
+                if (input.value === "1") {
+                    return;
+                } else {
+                    input.value--;
+
+                }
+            }
+
+            // 给input之后的加号添加鼠标单击事件
+            var nextSpan = getNextElementSibling(ip);
+            nextSpan.onclick = function () {
+                var input = getPreviousElementSibling(this);
+                input.value++;
+            }
+
+        }
+    </script>
+</body>
+
+</html>

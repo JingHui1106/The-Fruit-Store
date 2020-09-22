@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!--[if lt IE 9]-->
+    <!--html5shiv.js 实现html语义化标签的支持-->
+    <script src="js/html5shiv.js"></script>
+    <!--respond.js实现响应式布局的支持，包括媒体查询等-->
+    <!-- <script src="js/respond.min.js"></script> -->
+    <!--[endif]-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/comm.js"></script>
+    <style>
+        .navbar-brand>img {
+            height: 50px;
+            line-height: 50px;
+            margin-top: -15px;
+        }
+
+        /* body {
+            padding-top: 50px;
+        } */
+
+        .navbar-header a,
+        .collapse a {
+            font-size: 14px;
+        }
+
+        .logoContent {
+            padding-top: 50px;
+        }
+
+        .carts {
+            padding: 0px;
+        }
+
+        .go_plus:hover,
+        .go_shop:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        .go_plus:focus,
+        .go_shop:focus {
+            text-decoration: none;
+            color: white;
+
+        }
+
+        input[type=text] {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        #shopCar span {
+            display: inline-block;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* footer */
+        .footer {
+            background-image: url("images/footer.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .footer h4 {
+            color: white;
+        }
+
+        .footer small {
+            color: white;
+            opacity: 0.5;
+        }
+
+        .conTitle>div::after {
+            content: "";
+            display: block;
+            width: 31px;
+            height: 63px;
+            background: url('images/footerAside.png');
+            position: absolute;
+            right: -5%;
+            top: 0;
+        }
+
+        .conTitle>div:nth-child(4):after {
+            display: none;
+        }
+
+        .conTitle>div {
+            padding-left: 40px;
+        }
+
+        .secondRow p {
+            opacity: 0.5;
+        }
+
+        .secondRow div {
+            color: white;
+            text-align: center;
+        }
+
+        .secondRow+p,
+        .secondRow+p+p {
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--======================================工具栏=======================================-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="index.html" class="navbar-brand hidden-xs">
+                    <img src="images/logo.png" alt="" class="img-responsive">
+                </a>
+                <a class="navbar-brand" href="index.html">首页</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="">全部产品</a></li>
+                    <li><a href="" class="hidden-sm">最新资讯</a></li>
+                    <li><a href="" class="hidden-sm">联系我们</a></li>
+                    <li><a href="">购物车</a></li>
+                    <li><a data-toggle="modal" data-target="#myModal">登录</a></li>
+                    <li><a href="">注册</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="" class="hidden-xs">关于</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--======================================logo区=======================================-->
+    <header class="container logoContent">
+        <div class="logoArea leftBar">
+            <h1>
+                <a class="logo" href="javascript:void (0)">
+                </a>
+            </h1>
+        </div>
+    </header>
+
+    <!--=======================================购物车开始====================================-->
+    <section class="carts logoContent">
+        <div class="container">
+            <div class="title clearfix">
+                <h3>我的购物车</h3>
+                <span>已选商品(不含运费)：<strong class="totalPrice">￥32.00</strong> <a href="javascript: void (0)">结算</a></span>
+            </div>
+            <div class="cart-box clearfix">
+                <table class="col-xs-12 clearfix">
+                    <tr class="no-h">
+                        <td class="len-lg">选择</td>
+                        <td class="len-sm no-see">单价(元)</td>
+                        <td class="len-sm no-see">优惠(元)</td>
+                        <td class="len-sm">数量</td>
+                        <td class="len-sm">金额(元)</td>
+                        <td class="len-sm">操作</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox">
+                            <img src="images/ht-7.jpg" alt="">
+                            <span class="img_title"><a href="javascript: void (0)">【美伦达】精品蜜柚 鸳鸯柚子2粒</a></span>
+                        </td>
+                        <td class="no-see">
+                            <p><del>88.00</del></p>
+                            <p id="unitPriceTag">32.00</p>
+                        </td>
+                        <td class="no-see">
+                            <p>56.00</p>
+                            <p class="discount"><span> &nbsp;3.6折&nbsp; </span></p>
+                        </td>
+                        <td id="shopCar">
+                            <span id="sub">-</span>
+                            <input type="text" name="" id="acount" value="1">
+                            <span id="add">+</span>
+                        </td>
+                        <td>
+                            <p><strong class="totalPrice">32.00</strong></p>
+                        </td>
+                        <td>
+                            <a class="close-bg" href="javascript: void (0)">&times;</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="carts-b clearfix">
+                <div class="clearfix">
+                    <div class="chose-pro">
+                        <p class="leftBar">
+                            <input type="checkbox">全选
+                        </p>
+                    </div>
+                    <p class="rightBar">
+                        商品总价(不含运费)：
+                        <strong>￥<strong class="totalPrice">32.00</strong></strong>
+                    </p>
+                </div>
+                <div class="buy_box clearfix">
+                    <a class="go_shop" href="javascript: void (0)">继续购物</a>
+                    <a class="go_plus" href="javascript: void(0)">结算</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--===========================================售后服务==============-->
+
+    <!--===========================================猜你喜欢==================================-->
+    <section class="likes">
+        <div class="container">
+            <ol class="package-title">
+                <li class="on">根据浏览猜你喜欢</li>
+            </ol>
+
+            <ul class="row">
+                <li class="col-xs-6 col-sm-3">
+                    <a href="javascript: void (0)">
+                        <img src="images/ht-1.jpg" alt="" class="img-responsive">
+                        <p>陕西眉县 徐香猕猴桃 15个礼盒装</p>
+                    </a>
+                    <p class="price"> ￥69.00 <del>￥228.00</del></p>
+                </li>
+                <li class="col-xs-6 col-sm-3">
+                    <a href="javascript: void (0)">
+                        <img src="images/ht-2.jpg" alt="" class="img-responsive">
+                        <p>陕西眉县 徐香猕猴桃 15个礼盒装</p>
+                    </a>
+                    <p class="price"> ￥69.00 <del>￥228.00</del></p>
+                </li>
+                <li class="col-xs-6 col-sm-3">
+                    <a href="javascript: void (0)">
+                        <img src="images/ht-3.jpg" alt="" class="img-responsive">
+                        <p>陕西眉县 徐香猕猴桃 15个礼盒装</p>
+                    </a>
+                    <p class="price"> ￥69.00 <del>￥228.00</del></p>
+                </li>
+                <li class="col-xs-6 col-sm-3">
+                    <a href="javascript: void (0)">
+                        <img src="images/ht-4.jpg" alt="" class="img-responsive">
+                        <p>陕西眉县 徐香猕猴桃 15个礼盒装</p>
+                    </a>
+                    <p class="price"> ￥69.00 <del>￥228.00</del></p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!--===========================================售后服务=============================-->
+    <div class="footer">
+        <br><br><br>
+        <div class="container ">
+            <div class="row secondRow">
+                <div class="col-xs-6 col-md-3">
+                    <h4>服务保障</h4>
+                    <br>
+                    <p>正品保证</p>
+                    <p>7天无理由退换</p>
+                    <p>退货返运费</p>
+                    <p>7X15小时客户服务</p>
+                    <hr>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>支付方式</h4>
+                    <br>
+                    <p>公司转账</p>
+                    <p>货到付款</p>
+                    <p>在线支付</p>
+                    <p>分期付款</p>
+                    <hr>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>商家服务</h4>
+                    <br>
+                    <p>培训中心</p>
+                    <p>广告服务</p>
+                    <p>服务市场</p>
+                    <p>&nbsp;</p>
+                    <hr>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <h4>服务保障</h4>
+                    <br>
+                    <p>免运费</p>
+                    <p>海外配送</p>
+                    <p>正品保证</p>
+                    <p>211限时达</p>
+                    <hr>
+                </div>
+            </div>
+            <p>©2016 果然新鲜 版权所有</p>
+            <p>手机版 | 凡科商城 | 管理登录</p>
+        </div>
+    </div>
+
+    <script>
+        var unitPriceTag = document.getElementById("unitPriceTag");
+        // console.log(unitPriceTag.innerHTML);
+
+        var acount = document.getElementById("acount");
+        // console.log(acount.value);
+
+        var totalPrice = document.getElementsByClassName("totalPrice")
+        // console.log(totalPrice[0].innerHTML);
+
+        var shopCar = document.getElementById("shopCar");
+        var inputs = shopCar.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            var ip = inputs[i];
+
+            // 添加获取焦点事件
+            ip.onfocus = function () {
+                var val = this.value;
+                // 自定义属性
+                this.setAttribute("val", val);
+            }
+
+            // 添加失去焦点事件
+            ip.onblur = function () {
+                // 判断值是否符合要求
+                var v = Number(this.value);
+
+                // 如果v是NaN,那么恢复之前的值
+                if (isNaN(v)) {
+                    this.value = this.getAttribute("val");
+                } else {
+                    getPay();
+                }
+            }
+
+            // 给input之前的减号添加鼠标单击事件
+            var previousSpan = getPreviousElementSibling(ip);
+            previousSpan.onclick = function () {
+                // 获取输入框的当前值
+                var input = getNextElementSibling(this);
+                if (input.value === "1") {
+                    return;
+                } else {
+                    input.value--;
+                    for (var i = 0; i < totalPrice.length; i++) {
+                        totalPrice[i].innerHTML = acount.value * unitPriceTag.innerHTML + ".00";
+                    }
+                }
+            }
+
+            // 给input之后的加号添加鼠标单击事件
+            var nextSpan = getNextElementSibling(ip);
+            nextSpan.onclick = function () {
+                var input = getPreviousElementSibling(this);
+                input.value++;
+                for (var i = 0; i < totalPrice.length; i++) {
+                    totalPrice[i].innerHTML = acount.value * unitPriceTag.innerHTML + ".00";
+                }
+            }
+        }
+    </script>
+    <script>
+        // var unitPriceTag = document.getElementById("unitPriceTag");
+        // console.log(unitPriceTag.innerHTML);
+
+        // var acount = document.getElementById("acount");
+        // console.log(acount.value);
+
+        // var totalPrice = document.getElementById("totalPrice");
+        // console.log(totalPrice.innerHTML);
+        // totalPrice.innerHTML = unitPrice * acount.value;
+
+        // var add = document.getElementById("add");
+        // add.onclick = function () {
+
+        // }
+    </script>
+</body>
+
+</html>

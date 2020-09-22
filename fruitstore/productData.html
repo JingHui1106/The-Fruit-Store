@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据表格</title>
+    <!-- 引入layui.css -->
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <!-- 引入Layui.js -->
+    <script src="layui/layui.js"></script>
+    <style>
+        .layui-table-tool-temp>div:nth-child(2) {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <table id="demo" lay-filter="test"></table>
+        <div id="dataOpen" style="width: 600px; display: none;"></div>
+    </div>
+
+    <!-- 添加模版 -->
+    <form action="" class="layui-form" id="addData" style="display: none; width: 600px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品图片</label>
+            <div class="layui-input-block">
+                <input type="text" name="url" required lay-verify="required" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required lay-verify="required" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品价格</label>
+            <div class="layui-input-block">
+                <input type="text" name="price" required lay-verify="required" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/html" id="barDemo">
+        <button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">查看</button>
+        <button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+    </script>
+    <script>
+        layui.use(["table", "form", "laytpl", "layer"], function () {
+            var table = layui.table;
+
+            // 引入jQuery，通过Ajax请求更改count
+            var $ = layui.jquery;
+            var dataLength;
+            $.get("http://localhost:3000/product", function (res) {
+                dataLength = res.length;
+            })
+
+            // 方法渲染（强烈推荐用此方法）
+            table.render({
+                elem: '#demo',
+                // 先启动json服务 json-server db.json
+                url: "http://localhost:3000/product", // 数据接口
+                // 开启分页
+                page: {
+                    layout: ["count", "prev", "page", "next", "limit", "skip"],
+                    limit: 10,
+                    limits: [5, 10]
+                },
+                toolbar: 'default',
+                cols: [
+                    [{
+                        LAY_CHECKED: true,
+                        type: "checkbox"
+                    }, {
+                        field: 'id',
+                        title: 'ID',
+                        sort: true,
+                        align: "center"
+                    }, {
+                        field: 'url',
+                        title: '商品图片',
+                        align: "center",
+                    }, {
+                        field: 'name',
+                        title: '商品名称',
+                        align: "center",
+                    }, {
+                        field: 'price',
+                        title: '商品价格',
+                        align: "center",
+                    }, {
+                        title: '操作',
+                        align: 'center',
+                        toolbar: '#barDemo',
+                        width: 160
+                    }]
+                ],
+                parseData: function (res) { //res 即为原始返回的数据
+                    return {
+                        "code": 0, // 解析接口状态
+                        "msg": 0, // 解析提示文本
+                        "count": dataLength, // 解析数据长度
+                        "data": res // 解析数据列表
+                    };
+                },
+                request: {
+                    pageName: '_page', // 页码的参数名称，默认：page
+                    limitName: '_limit' // 每页数据量的参数名，默认：limit
+                }
+
+            })
+
+            var form = layui.form;
+            var laytpl = layui.laytpl;
+            var layer = layui.layer;
+
+            //监听工具条 
+            table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+                if (layEvent === 'detail') { //查看
+
+                    var getTpl = selectData.innerHTML,
+                        view = document.getElementById('dataOpen');
+                    laytpl(getTpl).render(data, function (html) {
+                        view.innerHTML = html;
+                    });
+
+                    // 更新渲染
+                    form.render();
+
+                    // 通过ajax获取json数据 
+                    $.ajax({
+                        type: "get",
+                        url: "http://localhost:3000/product"
+                    });
+
+                    layer.open({
+                        type: 1,
+                        area: "640px",
+                        content: $(
+                            '#dataOpen'
+                        )
+                    });
+                } else if (layEvent === 'edit') {
+
+                    var getTpl = updateData.innerHTML,
+                        view = document.getElementById('dataOpen');
+                    laytpl(getTpl).render(data, function (html) {
+                        view.innerHTML = html;
+                    });
+
+                    form.render();
+
+                    var updateView = layer.open({
+                        type: 1,
+                        area: "640px",
+                        content: $(
+                            '#dataOpen'
+                        )
+                    });
+
+                    form.on('submit(formDemo)', function (d) {
+
+                        // 发送更新请求
+                        $.ajax({
+                            type: "patch",
+                            url: "http://localhost:3000/product/" + data.id,
+                            data: d.field,
+                            success: function () {
+                                // layer.close(updateView);
+                                // window.location.reload();
+                                $(".layui-laypage-btn").click();
+                            }
+                        })
+
+                        return false; // 阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                    });
+                } else if (layEvent === 'del') { //删除
+
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "delete",
+                        url: "http://localhost:3000/product/" + data.id,
+                        success: function () {
+                            // window.location.reload();
+                            // $(".layui-laypage-btn").click();
+                            return false;
+                        }
+                    });
+                }
+            });
+
+            // 添加
+            $(".layui-table-tool-temp>div:nth-child(1)").click(function () {
+
+                form.render();
+
+                var updateView = layer.open({
+                    type: 1,
+                    area: "640px",
+                    content: $(
+                        '#addData'
+                    )
+                });
+
+                form.on('submit(formDemo)', function (d) {
+                    $.ajax({
+                        type: "post",
+                        url: "http://localhost:3000/product",
+                        data: d.field,
+                        success: function () {
+                            // layer.close(updateView);
+                            // window.location.reload();
+                            $(".layui-laypage-btn").click();
+                        }
+                    })
+                    return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                });
+            })
+        })
+    </script>
+
+    <!-- 查询模版 -->
+    <script id="selectData" type="text/html">
+        <form action="" class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品图片</label>
+                <div class="layui-input-block">
+                    <input type="text" name="url" class="layui-input" value={{d.url}} disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" class="layui-input" value={{d.name}} disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品价格</label>
+                <div class="layui-input-block">
+                    <input type="text" name="price" class="layui-input" value={{d.price}} disabled>
+                </div>
+            </div>
+        </form>
+    </script>
+
+    <!-- 编辑模版 -->
+    <script id="updateData" type="text/html">
+        <form action="" class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品图片</label>
+                <div class="layui-input-block">
+                    <input type="text" name="url" required lay-verify="required" class="layui-input"
+                        value={{d.url}}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" class="layui-input" value={{d.name}}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品价格</label>
+                <div class="layui-input-block">
+                    <input type="text" name="price" required lay-verify="required" class="layui-input"
+                        value={{d.price}}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                </div>
+            </div>
+        </form>
+    </script>
+</body>
+
+</html>
